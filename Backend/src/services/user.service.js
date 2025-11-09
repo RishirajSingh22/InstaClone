@@ -35,7 +35,7 @@ const getAllUsers = async () => {
   return await userRepository.findAll();
 };
 
-const loginUser = async (email, password) => {
+const signInUser = async (email, password) => {
   const user = await userRepository.findByEmail(email);
   if (!user) throw new Error("Invalid credentials");
   if (!user.isVerified) throw new Error("Please verify your email first");
@@ -80,10 +80,12 @@ const verifyOtp = async (email, code) => {
   const token = signToken({ email: created.email, id: created._id, role: created.role });
   return { message: "Registration successful", user: created, token };
 };
+
+
 export default {
   getAllUsers,
   registerUser,
-  loginUser,
+  signInUser,
   sendOtp,
   verifyOtp
 };

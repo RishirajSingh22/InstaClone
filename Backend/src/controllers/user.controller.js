@@ -1,4 +1,5 @@
 import userService from "../services/user.service.js";
+import {successHandler} from "../utils/successHandler.js";
 
 export const getUsers = async (req, res, next) => {
   try {
@@ -18,6 +19,15 @@ export const registerUser = async (req, res, next) => {
   }
 };
 
+export const signInUser=async(req,res,next)=>{
+  const {email,password}=req.body;
+try{const result=await userService.signInUser(email,password);
+successHandler(res, 200, "User signed in successfully", result);
+}catch(error){
+  next(error)
+}
+
+}
 export const sendOtp = async (req, res, next) => {
   try {
     const { email } = req.body;

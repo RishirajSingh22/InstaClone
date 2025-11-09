@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import type { User } from "@/types/user.types";
+import authService from '../../src/services/user.service';
 import axiosClient from "../api/axiosClient";
 import { useNavigate } from "react-router-dom";
 
-interface RegisterResponse {
-  message: string;
-}
+
 
 interface VerifyResponse {
   message: string;
@@ -31,7 +30,7 @@ const navigation=useNavigate()
 
   const handleRegister = async () => {
     try {
-      const res = await axiosClient.post<RegisterResponse>("/users", formData);
+      const res = await authService.register(formData);
       console.log(res)
       setSuccess(res.data.message);
       setStep("verify");
@@ -171,6 +170,15 @@ navigation("/home")
         </p>
       )}
     </form>
+    <p className="text-center text-gray-700 dark:text-gray-300 mt-4">
+      Already have an account?{" "}
+      <button
+        onClick={() => navigation("/login")}
+        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium focus:outline-none"
+      >
+        Login
+      </button>
+    </p>
   </div>
 </div>
 
