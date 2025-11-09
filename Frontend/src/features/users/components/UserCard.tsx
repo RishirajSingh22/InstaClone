@@ -1,4 +1,4 @@
-import { User } from "@/types/user.types";
+import type { User } from "../../../types/user.types";
 
 const UserCard = ({ user }: { user: User }) => {
   return (

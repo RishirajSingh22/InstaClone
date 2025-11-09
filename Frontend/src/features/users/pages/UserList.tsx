@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { userAPI } from "@/api/user.api";
 import UserCard from "../components/UserCard";
-import { User } from "@/types/user.types";
+import type { User } from "@/types/user.types";
 
 const UserList = () => {
   const [users, setUsers] = useState<User[]>([]);

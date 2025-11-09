@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000", // removed /api suffix
   headers: {
     "Content-Type": "application/json",
   },
@@ -14,7 +14,7 @@ axiosClient.interceptors.request.use((config) => {
 });
 
 axiosClient.interceptors.response.use(
-  (res) => res.data,
+  (res) => res,
   (err) => Promise.reject(err.response?.data || err.message)
 );
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { userAPI } from "@/api/user.api";
-import { User } from "@/types/user.types";
+import type { User } from "@/types/user.types";
 
 export const useUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
