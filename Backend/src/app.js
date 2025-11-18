@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./config/database.js";
 import userRoutes from "./routes/user.routes.js";
+import postRoutes from "./routes/post.routes.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 import cors from "cors";
 
@@ -19,9 +20,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
 
 // Error handler
 app.use(errorHandler);

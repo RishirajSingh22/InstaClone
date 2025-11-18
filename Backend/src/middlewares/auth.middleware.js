@@ -1,7 +1,7 @@
-import { verifyToken } from "../../utils/jwt.util.js";
-import userRepository from "../../repositories/user.repository.js";
+import { verifyToken } from "../utils/jwt.util.js";
+import userRepository from "../repositories/user.repository.js";
 
-export const authMiddleware = async (req, res, next) => {
+export const auth  = async (req, res, next) => {
   try {
     const header = req.headers.authorization || "";
     const token = header.startsWith("Bearer ") ? header.split(" ")[1] : null;

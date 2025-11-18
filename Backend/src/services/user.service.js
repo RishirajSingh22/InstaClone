@@ -1,5 +1,5 @@
 import userRepository from "../repositories/user.repository.js";
-import pendingUserRepository from "../repositories/pendingUser.repository.js";
+import * as pendingUserRepository from "../repositories/pendingUser.repository.js";
 
 import bcrypt from "bcryptjs";
 import { sendOtpEmail } from "../utils/email.util.js";
