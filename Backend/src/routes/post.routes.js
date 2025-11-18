@@ -27,7 +27,10 @@ router.delete("/:postId", auth, PostController.deletePost);
 router.post("/:postId/toggle-like", auth, PostController.toggleLikePost);
 
 // add comment
-router.post("/:postId/comments", auth, PostController.addComment);
+router.post("/:postId/comments", auth,PostController.addComment);
+
+// Add reply to a comment
+router.post("/comments/:commentId/replies", auth, PostController.addReplyToComment);
 
 // get all comments for a post
 router.get("/:postId/comments", auth, PostController.getCommentsForPost);

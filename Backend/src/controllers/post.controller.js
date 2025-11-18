@@ -145,3 +145,19 @@ export const getCommentsForPost = async (req, res) => {
       .json({ message: err.message || "Failed to fetch comments" });
   }
 };
+
+export const addReplyToComment = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const { text } = req.body;
+    const userId = req.user.id;
+
+    const reply = await PostService.addReplyToComment(commentId, userId, text);
+    return res.status(201).json(reply);
+  } catch (err) {
+    console.error("addReplyToComment:", err);
+    return res
+      .status(400)
+      .json({ message: err.message || "Failed to add reply" });
+  }
+};

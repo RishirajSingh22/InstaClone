@@ -74,6 +74,23 @@ export const addComment = async (postId, userId, text) => {
   return comment;
 };
 
+export const addReplyToComment = async (parentCommentId, userId, text) => {
+  const parentComment = await CommentRepository.findCommentById(parentCommentId);
+  if (!parentComment) throw new Error("Parent comment not found");
+
+  const reply = await CommentRepository.createComment({
+    post: parentComment.post,
+    author: userId,
+    text,
+    parentId: parentCommentId,
+  });
+
+  await CommentRepository.addReplyToComment(parentCommentId, reply._id);
+  await PostRepository.incrementCommentsCount(parentComment.post);
+
+  return reply;
+};
+
 export const getCommentsForPost = async (postId, page, limit) => {
   const post = await PostRepository.findPostById(postId);
   if (!post) throw new Error("Post not found");
