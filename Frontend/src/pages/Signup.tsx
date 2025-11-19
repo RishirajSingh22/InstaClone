@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import type { User } from "@/types/user.types";
+import type { User, UserFormData } from "@/types/user.types";
 import authService from '../../src/services/user.service';
 import axiosClient from "../api/axiosClient";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
 
 
 
@@ -14,7 +15,7 @@ interface VerifyResponse {
 
 const SignupForm: React.FC = () => {
   const [step, setStep] = useState<"register" | "verify">("register");
-  const [formData, setFormData] = useState<User>({
+  const [formData, setFormData] = useState<UserFormData>({
     name: "",
     email: "",
     password: "",
@@ -24,6 +25,7 @@ const SignupForm: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 const navigation=useNavigate()
+  const setUser = useAuthStore((state) => (state as any).setUser);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -48,6 +50,8 @@ const navigation=useNavigate()
       );
       setSuccess(res.data.message);
       localStorage.setItem("access_token", res.data.token);
+      setUser(res.data.user); // Set user data in authStore
+      // setToken(res.data.token); // Set token in authStore
 navigation("/home")
       // Reset form
       setFormData({ name: "", email: "", password: "" });

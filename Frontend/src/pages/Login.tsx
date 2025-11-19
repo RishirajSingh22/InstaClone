@@ -1,16 +1,19 @@
 import Input from "../components/common/Input";
 import Button from "../components/common/Button";
 import React, { useState } from "react";
-import type { User } from "@/types/user.types";
+import type {  UserFormData } from "@/types/user.types";
 import { useNavigate } from "react-router-dom";
 import authService from "../services/user.service";
+import { useAuthStore } from "../store/authStore";
 
 const Login = () => {
   const navigation = useNavigate();
-  const [formData, setFormData] = useState<User>({
+  const [formData, setFormData] = useState<UserFormData>({
     email: "",
     password: "",
   });
+  const setUser = useAuthStore((state) => state.setUser);
+  const setToken = useAuthStore((state) => state.setToken);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -18,6 +21,9 @@ const Login = () => {
     e.preventDefault();
    try{
      const response=await authService.login(formData);
+    // Verify user and token values before passing to store
+setUser(response.data.data.user);
+setToken(response.data.data.token);
      navigation('/home')
      console.log(response.data.message)
    }catch(err){

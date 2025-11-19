@@ -56,9 +56,12 @@ export const toggleLike = async (postId, userId) => {
   if (alreadyLiked) {
     post.likes = post.likes.filter((id) => !id.equals(userObjectId));
     action = "unliked";
+    console.log("unliked")
   } else {
     post.likes.push(userObjectId);
     action = "liked";
+    console.log("liked")
+
   }
 
   await post.save();

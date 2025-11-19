@@ -3,9 +3,12 @@ import * as PostService from "../services/post.service.js";
 
 export const createPost = async (req, res) => {
   try {
-    const { caption, imageUrl } = req.body;
+    const { caption } = req.body;
+   
+    const imageUrl = req.file
+      ? `/uploads/images/${req.file.filename}` // ✅ this is what goes into DB
+      : null; // Get image path from req.file
     const userId = req.user.id; // make sure auth middleware sets this
-
     const post = await PostService.createPost(userId, caption, imageUrl);
     return res.status(201).json(post);
   } catch (err) {
