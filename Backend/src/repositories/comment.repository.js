@@ -8,7 +8,7 @@ export const createComment = (data) => {
 export const findCommentsByPost = (postId, page = 1, limit = 10) => {
   const skip = (page - 1) * limit;
   return Comment.find({ post: postId, parentId: null })
-    .populate("author", "username avatar")
+    .populate("author", "name avatar")
     .populate({
       path: "replies",
       populate: {

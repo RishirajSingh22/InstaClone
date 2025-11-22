@@ -81,11 +81,25 @@ const verifyOtp = async (email, code) => {
   return { message: "Registration successful", user: created, token };
 };
 
+const updateUser = async (userId, updateData) => {
+  const user = await userRepository.findById(userId);
+  if (!user) throw new Error("User not found");
+
+  // Optionally, handle password updates separately if needed
+  if (updateData.password) {
+    updateData.password = await bcrypt.hash(updateData.password, 10);
+  }
+
+  const updatedUser = await userRepository.updateUser(userId, updateData);
+  return updatedUser;
+};
+
 
 export default {
   getAllUsers,
   registerUser,
   signInUser,
   sendOtp,
-  verifyOtp
+  verifyOtp,
+  updateUser,
 };

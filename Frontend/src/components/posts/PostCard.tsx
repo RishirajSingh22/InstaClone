@@ -4,6 +4,7 @@ import { useAuthStore } from "../../store/authStore";
 import { postService } from "../../services/post.service";
 import { formatDistanceToNow } from "date-fns";
 import { usePostStore } from "../../store/postStore";
+import { useCommentModalStore } from "../../store/commentModalStore";
 
 interface PostCardProps {
   post: Post;
@@ -11,21 +12,18 @@ interface PostCardProps {
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const { user } = useAuthStore();
-  const {updatePostLikes} = usePostStore();
-  console.log(user,"user")
-const liked = post.likes.includes(user?._id || "");
-  
-
-
+  const { updatePostLikes } = usePostStore();
+  const { openCommentModal } = useCommentModalStore();
+  const liked = post.likes.includes(user?._id || "");
 
   const imageSrc = post.imageUrl
     ? `http://localhost:5000${post.imageUrl}`
     : "https://via.placeholder.com/500";
-
+  const avatar = post.author.avatar
+    ? `http://localhost:5000${post.author.avatar}`
+    : "https://via.placeholder.com/150";
   const handleLikeToggle = async () => {
     if (!user) return; // optionally show toast / redirect to login
-
-    
 
     try {
       await postService.toggleLikePost(post._id);
@@ -43,11 +41,11 @@ const liked = post.likes.includes(user?._id || "");
       {/* Post Header */}
       <div className="flex items-center p-3">
         <img
-          src={post.author.avatar || "https://via.placeholder.com/150"}
-          alt={post.author.username}
+          src={avatar}
+          alt={post.author.name}
           className="w-8 h-8 rounded-full mr-3"
         />
-        <span className="font-semibold text-sm">{post.author.username}</span>
+        <span className="font-semibold text-sm">{post.author.name}</span>
       </div>
 
       {/* Post Image */}
@@ -93,10 +91,11 @@ const liked = post.likes.includes(user?._id || "");
           {/* Comment Icon (placeholder) */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-gray-500"
+            className="h-6 w-6 text-gray-500 cursor-pointer"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
+            onClick={() => openCommentModal(post._id)}
           >
             <path
               strokeLinecap="round"
@@ -106,15 +105,13 @@ const liked = post.likes.includes(user?._id || "");
             />
           </svg>
         </div>
-        <span className="text-sm text-gray-500">
-          {post.likes.length} likes
-        </span>
+        <span className="text-sm text-gray-500">{post.likes.length} likes</span>
       </div>
 
       {/* Post Caption */}
       <div className="px-3 pb-2">
         <p className="text-sm">
-          <span className="font-semibold mr-1">{post.author.username}</span>
+          <span className="font-semibold mr-1">{post.author.name}</span>
           {post.caption}
         </p>
       </div>
@@ -130,7 +127,9 @@ const liked = post.likes.includes(user?._id || "");
           <input
             type="text"
             placeholder="Add a comment..."
-            className="w-full text-sm border-none focus:ring-0"
+            className="w-full text-sm bordera_none focus:ring-0 cursor-pointer"
+            onClick={() => openCommentModal(post._id)}
+            readOnly
           />
         </div>
       </div>

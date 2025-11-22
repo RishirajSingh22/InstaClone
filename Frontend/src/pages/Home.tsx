@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { usePostStore } from '../store/postStore';
 import { postService } from '../services/post.service';
 import PostCard from '../components/posts/PostCard';
+import CommentModal from '../components/posts/CommentModal';
 
 const Home: React.FC = () => {
   const { posts, setPosts, loading, error } = usePostStore();
@@ -11,7 +12,6 @@ const Home: React.FC = () => {
       // Optionally set loading state here if not handled by setPosts
       try {
         const fetchedPosts = await postService.getAllPosts();
-        console.log('Fetched posts:', fetchedPosts);
         setPosts(fetchedPosts);
       } catch (err) {
         console.error('Failed to fetch posts:', err);
@@ -34,6 +34,7 @@ const Home: React.FC = () => {
           posts.map((post) => <PostCard key={post._id} post={post} />)
         )}
       </div>
+      <CommentModal />
     </div>
   );
 };

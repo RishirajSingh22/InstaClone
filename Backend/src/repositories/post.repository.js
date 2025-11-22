@@ -29,7 +29,7 @@ export const deletePostById = (postId) => {
 export const findAllPosts = (page = 1, limit = 10) => {
   const skip = (page - 1) * limit;
   return Post.find()
-    .populate("author", "username avatar")
+    .populate("author", "name avatar")
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit);

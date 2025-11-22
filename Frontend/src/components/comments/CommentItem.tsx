@@ -13,9 +13,9 @@ interface CommentItemProps {
 const CommentItem: React.FC<CommentItemProps> = ({ comment, level = 0 }) => {
   const { user } = useAuthStore();
   const addReplyToStore = useCommentStore((state) => state.addReply);
-  const [showReplyInput, setShowReplyInput] = useState(false);
+  const [showReplyInput, setShowReplyInput] = useState(true);
   const [replyText, setReplyText] = useState('');
-
+console.log(user,"us")
   const handleAddReply = async () => {
     if (!user || !replyText.trim()) return;
     try {
@@ -33,12 +33,12 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, level = 0 }) => {
       <div className="flex items-start">
         <img
           src={comment.author.avatar || 'https://via.placeholder.com/150'}
-          alt={comment.author.username}
+          alt={comment.author.name}
           className="w-6 h-6 rounded-full mr-2 mt-1"
         />
         <div className="flex-1">
           <p className="text-sm">
-            <span className="font-semibold mr-1">{comment.author.username}</span>
+            <span className="font-semibold mr-1">{comment.author.name}</span>
             {comment.text}
           </p>
           <div className="flex items-center text-xs text-gray-500 mt-1">
@@ -63,7 +63,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, level = 0 }) => {
               />
               <button
                 onClick={handleAddReply}
-                className="ml-2 px-3 py-1 bg-blue-500 text-white rounded-md text-sm focus:outline-none"
+                className="ml-2 px-3 py-1 bg-blue-500 text-black rounded-md text-sm focus:outline-none"
               >
                 Post
               </button>

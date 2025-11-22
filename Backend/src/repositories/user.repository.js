@@ -69,6 +69,22 @@ const verifyOtp = async (user, code) => {
   }
 };
 
+const findById = async (id) => {
+  try {
+    return await User.findById(id);
+  } catch (error) {
+    throw new Error(`Failed to find user by ID: ${error.message}`);
+  }
+};
+
+const updateUser = async (id, updateData) => {
+  try {
+    return await User.findByIdAndUpdate(id, updateData, { new: true });
+  } catch (error) {
+    throw new Error(`Failed to update user: ${error.message}`);
+  }
+};
+
 export default {
   findAll,
   findByEmail,
@@ -76,5 +92,7 @@ export default {
   findByVerificationToken,
   markVerified,
   setOtp,
-  verifyOtp
+  verifyOtp,
+  updateUser,
+  findById,
 };

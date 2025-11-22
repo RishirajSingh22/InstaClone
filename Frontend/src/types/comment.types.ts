@@ -3,7 +3,7 @@ export interface Comment {
   post: string;
   author: {
     _id: string;
-    username: string;
+    name: string;
     avatar?: string;
   };
   text: string;

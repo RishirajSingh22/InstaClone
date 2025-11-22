@@ -1,6 +1,7 @@
 import express from "express";
-import { getUsers,signInUser, registerUser, sendOtp, verifyOtp } from "../controllers/user.controller.js";
+import { getUsers,signInUser, registerUser, sendOtp, verifyOtp, updateUser } from "../controllers/user.controller.js";
 import upload from "../middlewares/upload.middleware.js";
+import { auth } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
@@ -16,5 +17,7 @@ router.post("/upload-image", upload.single("image"), (req, res) => {
   }
   res.send(`File uploaded successfully: ${req.file.path}`);
 });
+
+router.patch("/:userId", auth, upload.single("avatar"), updateUser);
 
 export default router;

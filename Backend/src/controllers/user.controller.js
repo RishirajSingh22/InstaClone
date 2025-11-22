@@ -1,6 +1,20 @@
 import userService from "../services/user.service.js";
 import {successHandler} from "../utils/successHandler.js";
 
+export const updateUser = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { name, email } = req.body;
+    const avatar = req.file ? `/uploads/images/${req.file.filename}` : undefined;
+
+    const updatedUser = await userService.updateUser(userId, { name, email, avatar });
+    successHandler(res, 200, "User updated successfully", updatedUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 export const getUsers = async (req, res, next) => {
   try {
     const users = await userService.getAllUsers();

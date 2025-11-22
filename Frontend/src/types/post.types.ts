@@ -2,7 +2,7 @@ export interface Post {
   _id: string;
   author: {
     _id: string;
-    username: string;
+    name: string;
     avatar?: string;
   };
   caption: string;
