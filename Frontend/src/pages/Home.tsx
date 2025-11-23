@@ -3,6 +3,7 @@ import { usePostStore } from '../store/postStore';
 import { postService } from '../services/post.service';
 import PostCard from '../components/posts/PostCard';
 import CommentModal from '../components/posts/CommentModal';
+import Notification from '../components/Notification/notification';
 
 const Home: React.FC = () => {
   const { posts, setPosts, loading, error } = usePostStore();
@@ -27,6 +28,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
+      <Notification />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {posts.length === 0 ? (
           <p className="col-span-full text-center text-gray-500">No posts available.</p>
